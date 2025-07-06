@@ -193,6 +193,29 @@ class LinkedList {
   }
 
   /**
+   * @description reverses a linked list
+   * @returns {*} the linked list instance
+   */
+  reverse() {
+    if (!this.head) return undefined;
+    if (this.length === 1) return this;
+    // swap the head and tail pointers
+    let temp = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+    // initial prev and next pointers to facilitate the reverse operation
+    let prev = null;
+    let next = temp.next;
+    for (let i = 0; i < this.length; ++i) {
+      next = temp.next;
+      temp.next = prev;
+      prev = temp;
+      temp = next;
+    }
+    return this;
+  }
+
+  /**
    * @description print all the nodes of the linked list
    */
   printList() {
@@ -275,5 +298,11 @@ ll1.printList();
 // remove the node at index = 1
 console.log("\nOperation remove - (index) - 1");
 ll1.remove(1);
+// print list
+ll1.printList();
+
+// reverse the linked list
+console.log("\nOperation reverse");
+ll1.reverse();
 // print list
 ll1.printList();
