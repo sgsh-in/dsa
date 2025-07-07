@@ -57,25 +57,21 @@ export class SinglyLinkedList {
   pop() {
     if (!this.head) return undefined;
     let temp = this.head;
-    let prev = temp; // to track the second last node
-    while (temp.next !== null) {
-      // traverse till temp points to the last node and the prev pointer points to the second last node
-      prev = temp;
-      temp = temp.next;
-    }
-    // point the tail to the second last node
-    this.tail = prev;
-    this.tail.next = null; // detach the last node
-    --this.length;
-    if (this.length === 0) {
-      /**
-       * if linked list only has 1 node, after the
-       * reduction of length, we will see that the head and tail
-       * still points to the removed node
-       */
+    if (this.length === 1) {
       this.head = null;
       this.tail = null;
+    } else {
+      let prev = temp; // to track the second last node
+      while (temp.next !== null) {
+        // traverse till temp points to the last node and the prev pointer points to the second last node
+        prev = temp;
+        temp = temp.next;
+      }
+      // point the tail to the second last node
+      this.tail = prev;
+      this.tail.next = null; // detach the last node
     }
+    --this.length;
     // return the popped node
     return temp;
   }
@@ -110,17 +106,13 @@ export class SinglyLinkedList {
     // if the list is empty
     if (!this.head) return undefined;
     const temp = this.head;
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    }
     this.head = temp.next;
     temp.next = null;
     this.length--;
-    if (this.length === 0) {
-      /**
-       * if linked list only has 1 node, after the
-       * reduction of length, we will see that the tail
-       * still points to the removed node
-       */
-      this.tail = null;
-    }
     return temp;
   }
 

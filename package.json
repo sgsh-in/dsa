@@ -1,0 +1,26 @@
+{
+  "name": "dsa",
+  "version": "1.0.0",
+  "description": "Data structures and algorithms reference",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgsh-in/dsa.git"
+  },
+  "keywords": [
+    "Data",
+    "Structures",
+    "and",
+    "Algorithms",
+    "DSA"
+  ],
+  "author": "Sayantan Ghosh <sayantan.ghosh03@gmail.com> (https://sgsh.in)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sgsh-in/dsa/issues"
+  },
+  "homepage": "https://github.com/sgsh-in/dsa#readme"
+}
