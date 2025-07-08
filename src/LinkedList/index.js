@@ -5,8 +5,10 @@
  * @description LinkedList
  */
 
+const { DoublyLinkedList } = require("./DoublyLinkedList");
 const { SinglyLinkedList } = require("./SinglyLinkedList");
 
 module.exports = {
   SinglyLinkedList,
+  DoublyLinkedList,
 };

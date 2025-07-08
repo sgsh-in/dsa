@@ -2,24 +2,25 @@
  * @author Sayantan Ghosh
  * @email sayantan.ghosh03@gmail.com
  * @website https://sgsh.in
- * @description SinglyLinkedList
+ * @description DoublyLinkedList
  */
 
 class Node {
   constructor(value) {
     /**
-     * A SinglyLinkedList node contains the value and the next pointer
+     * A DoublyLinkedList node contains the value, the next pointer and the prev pointer
      */
     this.value = value;
     this.next = null;
+    this.prev = null;
   }
 }
 
-// SinglyLinkedList class
-export class SinglyLinkedList {
+// DoublyLinkedList class
+export class DoublyLinkedList {
   constructor() {
     /**
-     * A SinglyLinkedList constructor may or may not create a new node by default.
+     * A DoublyLinkedList constructor may or may not create a new node by default.
      * In this implementation a new node is not getting created giving flexibility
      * to create an empty linked list
      */
@@ -29,7 +30,7 @@ export class SinglyLinkedList {
   }
 
   /**
-   * @description push a new node to the end of a SinglyLinkedList
+   * @description push a new node to the end of a DoublyLinkedList
    * @param {*} value
    * @returns {this} linked list instance
    */
@@ -43,6 +44,8 @@ export class SinglyLinkedList {
     } else {
       // else point the next pointer of the tail to the new node
       this.tail.next = newNode;
+      // point the prev pointer of the new node to the current tail node
+      newNode.prev = this.tail;
       // move the tail to this new node to update the pointer
       this.tail = newNode;
     }
@@ -51,7 +54,7 @@ export class SinglyLinkedList {
   }
 
   /**
-   * @description pop a node (if possible) from the end of a SinglyLinkedList
+   * @description pop a node (if possible) from the end of a DoublyLinkedList
    * @returns the popped node
    */
   pop() {
@@ -69,7 +72,8 @@ export class SinglyLinkedList {
       }
       // point the tail to the second last node
       this.tail = prev;
-      this.tail.next = null; // detach the last node
+      this.tail.next = null; // detach the tail from the last node
+      temp.prev = null; // detach the last node properly from the list
     }
     --this.length;
     // return the popped node
@@ -77,7 +81,7 @@ export class SinglyLinkedList {
   }
 
   /**
-   * @description insert a node at the beginning of the SinglyLinkedList
+   * @description insert a node at the beginning of the DoublyLinkedList
    * @param {*} value
    * @returns {this} linked list instance
    */
@@ -91,6 +95,8 @@ export class SinglyLinkedList {
     } else {
       // point the new node's next pointer to the head
       newNode.next = this.head;
+      // point the current head pointer node's prev to the new node
+      this.head.prev = newNode;
       // update the head pointer
       this.head = newNode;
     }
@@ -99,7 +105,7 @@ export class SinglyLinkedList {
   }
 
   /**
-   * @description remove an item from the beginning of the SinglyLinkedList
+   * @description remove an item from the beginning of the DoublyLinkedList
    * @returns the removed node
    */
   shift() {
@@ -111,22 +117,31 @@ export class SinglyLinkedList {
       this.tail = null;
     } else {
       this.head = temp.next;
-      temp.next = null;
+      this.head.prev = null; // detach the current head's prev from the node to be removed
+      temp.next = null; // detach the 1st node of the list properly
     }
     this.length--;
     return temp;
   }
 
   /**
-   * @description get an item from the SinglyLinkedList based on index (0 based)
+   * @description get an item from the DoublyLinkedList based on index (0 based)
    * @param {number} index
    * @returns {Node | undefined} the Node based on index. undefined for invalid index
    */
   get(index) {
     if (index < 0 || index >= this.length) return undefined;
     let temp = this.head;
-    for (let i = 0; i < index; ++i) {
-      temp = temp.next;
+    // slight optimisation to check if the index lies in the 1st half or the second half of the list
+    if (index < this.length / 2) {
+      for (let i = 0; i < index; ++i) {
+        temp = temp.next;
+      }
+    } else {
+      temp = this.tail;
+      for (let i = this.length - 1; i > index; --i) {
+        temp = temp.prev;
+      }
     }
     return temp;
   }
@@ -162,9 +177,12 @@ export class SinglyLinkedList {
     }
     if (index < 0 || index > this.length) return false;
     const prev = this.get(index - 1);
+    const next = prev.next; // this is O(1)
     const newNode = new Node(value);
-    newNode.next = prev.next;
+    newNode.next = next;
+    newNode.prev = prev;
     prev.next = newNode;
+    next.prev = newNode;
     ++this.length;
     return true;
   }
@@ -179,45 +197,25 @@ export class SinglyLinkedList {
     if (index === this.length - 1) return this.pop();
     if (index < 0 || index >= this.length) return undefined;
     const prev = this.get(index - 1);
-    const curr = prev.next;
+    const curr = prev.next; // this is O(1)
     prev.next = curr.next;
+    curr.next.prev = prev;
     curr.next = null; // this detaches the current node from the list otherwise the next node would have pointers from both current node and the previous node
+    curr.prev = null; // this detaches the current node from the list otherwise the prev node would have pointers from both current node and the next node
     --this.length;
     return curr;
-  }
-
-  /**
-   * @description reverses a linked list
-   * @returns {*} the linked list instance
-   */
-  reverse() {
-    if (!this.head) return undefined;
-    if (this.length === 1) return this;
-    // swap the head and tail pointers
-    let temp = this.head;
-    this.head = this.tail;
-    this.tail = temp;
-    // initial prev and next pointers to facilitate the reverse operation
-    let prev = null;
-    let next = temp.next;
-    for (let i = 0; i < this.length; ++i) {
-      next = temp.next;
-      temp.next = prev;
-      prev = temp;
-      temp = next;
-    }
-    return this;
   }
 
   /**
    * @description print all the nodes of the linked list
    */
   printList() {
-    if (!this.head) console.log("The SinglyLinkedList is empty!");
+    if (!this.head) console.log("The DoublyLinkedList is empty!");
     let temp = this.head;
     let finalString = "";
+    if (temp !== null) finalString += "null <= ";
     while (temp != null) {
-      finalString += temp.value + " => ";
+      finalString += temp.value + " <=> ";
       temp = temp.next;
     }
     finalString += "null";
