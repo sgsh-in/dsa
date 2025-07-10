@@ -50,7 +50,7 @@ export class Stack {
   }
 
   /**
-   * @description pop an node (if possible) from the top of a Stack
+   * @description pop a node (if possible) from the top of a Stack
    * @returns the popped node
    */
   pop() {

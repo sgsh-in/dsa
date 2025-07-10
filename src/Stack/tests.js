@@ -4,7 +4,7 @@ const testStack = () => {
   console.log("=======================\nStack\n=======================");
   // create the Stack instance
   const stack = new Stack();
-  // print list
+  // print stack
   stack.printStack();
 
   // push some items
@@ -15,7 +15,7 @@ const testStack = () => {
   stack.push(4);
   stack.push(5);
   stack.push(6);
-  // print list
+  // print stack
   stack.printStack();
 
   // pop 3 items
@@ -23,22 +23,22 @@ const testStack = () => {
   stack.pop();
   stack.pop();
   stack.pop();
-  // print list
+  // print stack
   stack.printStack();
   // pop 1 time
   console.log("\nOperation pop 1 time");
   stack.pop();
-  // print list
+  // print stack
   stack.printStack();
   // pop 1 time
   console.log("\nOperation pop 1 time");
   stack.pop();
-  // print list
+  // print stack
   stack.printStack();
   // pop 1 time
   console.log("\nOperation pop 1 time");
   stack.pop();
-  // print list
+  // print stack
   stack.printStack();
 };
 
